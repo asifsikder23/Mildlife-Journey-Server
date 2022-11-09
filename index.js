@@ -25,7 +25,7 @@ async function run(){
 
     app.get('/limit', async(req, res)=>{
       const query = {}
-      const result = await ServiceCollection.find(query).limit(3).toArray();
+      const result = await ServiceCollection.find(query).sort({ $natural: -1 }).limit(3).toArray();
       res.send(result)
     })
 
