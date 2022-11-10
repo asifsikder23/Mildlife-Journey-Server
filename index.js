@@ -67,6 +67,12 @@ async function run(){
       const userReview = await cursor.toArray();
       res.send(userReview);
     });
+    app.get('/review/:id', async(req, res)=>{
+      const query = {}
+      const cursor = ReviewCollection.find(query);
+      const userReview = await cursor.toArray();
+      res.send(userReview);
+    });
 
     app.delete('/reviews/:id', async(req, res) =>{
       const id = req.params.id;
@@ -80,6 +86,7 @@ async function run(){
     const id = req.params.id;
     const filter = { _id: ObjectId(id) };
     const user =  req.body;
+    console.log(user);
     const option = {upsert: true}
     const updatedUser ={
         $set:{
