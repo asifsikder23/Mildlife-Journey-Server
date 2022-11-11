@@ -18,6 +18,7 @@ async function run(){
     console.log("database connected");
     const ServiceCollection = client.db('mildlife-journey').collection('services')
     const ReviewCollection = client.db('mildlife-journey').collection('review')
+
     app.get('/services', async(req, res)=>{
       const query = {}
       const result = await ServiceCollection.find(query).toArray();
@@ -82,19 +83,19 @@ async function run(){
       console.log(result);
       res.send(result)
   })
-  app.put('/reviews/:id', async(req, res)=>{
+  app.put('/review/:id', async(req, res)=>{
     const id = req.params.id;
-    const filter = { _id: ObjectId(id) };
+    const filter = { _id:ObjectId(id) };
     const user =  req.body;
     console.log(user);
     const option = {upsert: true}
     const updatedUser ={
         $set:{
+            massage: user.massage,
             rating: user.rating,
-            message: user.massage,
         }
     }
-    console.log(updatedUser);
+    console.log(user.message);
     const result = await ReviewCollection.updateOne(filter, updatedUser, option);
     res.send(result);
 })
