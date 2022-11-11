@@ -86,7 +86,8 @@ async function run(){
     });
 
     app.get('/review/:id', async(req, res)=>{
-      const query = {}
+      const id = req.params.id
+      const query = {_id: ObjectId(id)}
       const cursor = ReviewCollection.find(query);
       const userReview = await cursor.toArray();
       res.send(userReview);
@@ -101,20 +102,19 @@ async function run(){
       res.send(result)
   })
 
-  app.put('/review/:id', async(req, res)=>{
+  app.patch('/reviews/:id', async(req, res)=>{
     const id = req.params.id;
     const filter = { _id:ObjectId(id) };
     const user =  req.body;
     console.log(user);
-    const option = {upsert: true}
     const updatedUser ={
         $set:{
             massage: user.massage,
             rating: user.rating,
         }
     }
-    console.log(user.message);
-    const result = await ReviewCollection.updateOne(filter, updatedUser, option);
+    console.log(id);
+    const result = await ReviewCollection.updateOne(filter, updatedUser);
     res.send(result);
 })
 }
